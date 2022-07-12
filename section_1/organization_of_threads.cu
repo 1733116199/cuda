@@ -3,9 +3,9 @@
 
 #include <stdio.h>
 
-__global__ void printThreadIds()
+__global__ void print_details()
 {
-    printf("ThreadIdx.x : %d, ThreadIdx.y : %d, ThreadIdx.z : %d \n", threadIdx.x, threadIdx.y, threadIdx.z);
+    printf("blockIdx.x : %d, blockIdx.y : %d, blockIdx.z : %d, blockDim.x : %d, blockDim.y : %d, blockDim.z : %d, gridDim.x : %d, gridDim.y : %d, gridDim.z : %d \n", blockIdx.x, blockIdx.y, blockIdx.z, blockDim.x, blockDim.y, blockDim.z, gridDim.x, gridDim.y, gridDim.z);
 }
 
 int main()
@@ -14,7 +14,7 @@ int main()
 
     dim3 block(8, 8);
     dim3 grid(nx / block.x, ny / block.y);
-    printThreadIds<<<grid, block>>>();
+    print_details<<<grid, block>>>();
     cudaDeviceSynchronize();
     cudaDeviceReset();
     return 0;
