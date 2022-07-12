@@ -10,8 +10,10 @@ __global__ void hello_cuda()
 
 int main()
 {
-    dim3 block(8, 2, 1);
-    dim3 grid(2, 2, 1);
+    int nx = 16, ny = 4;
+
+    dim3 block(8, 2);
+    dim3 grid(nx / block.x, ny / block.y);
     hello_cuda<<<grid, block>>>();
     cudaDeviceSynchronize();
     cudaDeviceReset();
