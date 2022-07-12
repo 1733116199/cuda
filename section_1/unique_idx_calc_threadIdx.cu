@@ -11,7 +11,24 @@ __global__ void unique_idx_calc_threadIdx(int *input)
 
 int main()
 {
-    int h_data[] = {23, 9, 4, 53, 65, 12, 1, 33};
+    int h_data[] = {
+        23,
+        9,
+        4,
+        53,
+        65,
+        12,
+        1,
+        33,
+        87,
+        45,
+        23,
+        12,
+        342,
+        56,
+        44,
+        99,
+    };
 
     for (int i = 0; i < sizeof(h_data) / sizeof(int); i++)
     {
@@ -24,7 +41,7 @@ int main()
     cudaMemcpy(d_data, h_data, sizeof(h_data), cudaMemcpyHostToDevice);
 
     dim3 block(4);
-    dim3 grid(2);
+    dim3 grid(4);
     unique_idx_calc_threadIdx<<<grid, block>>>(d_data);
 
     cudaDeviceSynchronize();
