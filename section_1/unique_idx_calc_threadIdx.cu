@@ -5,8 +5,8 @@
 
 __global__ void unique_idx_calc_threadIdx(int *input)
 {
-    int tid = threadIdx.x;
-    printf("threadIdx : %d, tid : %d\n", tid, input[tid]);
+    int gid = blockIdx.x * blockDim.x + threadIdx.x;
+    printf("Idx : %d, value : %d\n", gid, input[gid]);
 }
 
 int main()
@@ -23,10 +23,10 @@ int main()
     cudaMalloc((void **)&d_data, sizeof(h_data));
     cudaMemcpy(d_data, h_data, sizeof(h_data), cudaMemcpyHostToDevice);
 
-    dim3 block(8);
-    dim3 grid(1);
+    dim3 block(4);
+    dim3 grid(2);
     unique_idx_calc_threadIdx<<<grid, block>>>(d_data);
-    
+
     cudaDeviceSynchronize();
     cudaDeviceReset();
     return 0;
