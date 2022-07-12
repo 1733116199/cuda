@@ -1,6 +1,10 @@
-kernel: kernel.cu
-	nvcc -o kernel kernel.cu
-hello_cuda: hello_cuda.cu
-	nvcc -o hello_cuda hello_cuda.cu
+CC = nvcc
+PROGRAMS = kernel hello_cuda organization_of_threads
+
+all: $(PROGRAMS)
+
+%: %.cu
+	$(CC) $(CFLAGS) -o $@ $<
+
 clean:
-	rm -rf kernel hello_cuda
+	rm -rf $(PROGRAMS)
