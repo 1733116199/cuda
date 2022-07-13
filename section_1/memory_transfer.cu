@@ -12,9 +12,18 @@ __global__ void mem_trs_test(int *input)
     printf("tid : %d, gid : %d, value : %d \n", threadIdx.x, gid, input[gid]);
 }
 
+__global__ void mem_trs_test_2(int *input, size_t size)
+{
+    int gid = blockIdx.x * blockDim.x + threadIdx.x;
+    if (gid < size)
+    {
+        printf("tid : %d, gid : %d, value : %d \n", threadIdx.x, gid, input[gid]);
+    }
+}
+
 int main()
 {
-    const int size = 128;
+    const int size = 150;
     const int byte_size = size * sizeof(int);
     int *h_input;
     h_input = (int *)malloc(byte_size);
@@ -32,14 +41,14 @@ int main()
 
     cudaMemcpy(d_input, h_input, byte_size, cudaMemcpyHostToDevice);
 
-    dim3 block(64);
-    dim3 grid(2);
-    mem_trs_test<<<grid, block>>>(d_input);
+    dim3 block(32);
+    dim3 grid(5);
+    mem_trs_test_2<<<grid, block>>>(d_input, size);
 
     cudaDeviceSynchronize();
     cudaFree(d_input);
     free(h_input);
-    
+
     cudaDeviceReset();
     return 0;
 }
