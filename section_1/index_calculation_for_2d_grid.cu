@@ -5,7 +5,7 @@
 
 __global__ void index_calculation_for_2d_grid(int *input)
 {
-    int gid = (blockIdx.x * gridDim.x + blockIdx.y) * blockDim.x + threadIdx.x;
+    int gid = blockIdx.y * gridDim.x * blockDim.x + blockIdx.x * blockDim.x + threadIdx.x;
     printf("blockIdx.x : %d, blockIdx.y: %d, Idx : %d, value : %d\n", blockIdx.x, blockIdx.y, gid, input[gid]);
 }
 
