@@ -38,6 +38,8 @@ int main()
 
     cudaDeviceSynchronize();
     cudaFree(d_input);
+    free(h_input);
+    
     cudaDeviceReset();
     return 0;
 }
