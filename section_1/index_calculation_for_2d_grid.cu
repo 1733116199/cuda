@@ -3,7 +3,7 @@
 
 #include <stdio.h>
 
-__global__ void index_calculation_for_2d_grid(int *input)
+__global__ void unique_gid_calculation_2d(int *input)
 {
     int gid = blockIdx.y * gridDim.x * blockDim.x + blockIdx.x * blockDim.x + threadIdx.x;
     printf("blockIdx.x : %d, blockIdx.y: %d, Idx : %d, value : %d\n", blockIdx.x, blockIdx.y, gid, input[gid]);
@@ -42,7 +42,7 @@ int main()
 
     dim3 block(4);
     dim3 grid(2, 2);
-    index_calculation_for_2d_grid<<<grid, block>>>(d_data);
+    unique_gid_calculation_2d<<<grid, block>>>(d_data);
 
     cudaDeviceSynchronize();
     cudaDeviceReset();
